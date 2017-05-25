@@ -1,4 +1,5 @@
 
+var path = require('path');
 var express = require('express');
 var router = express.Router();
 var fs = require("fs");
@@ -9,8 +10,13 @@ var multer  = require('multer');
 router.use(express.static('public'));
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(multer({ dest: '/tmp/'}).array('image'));
+
+router.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "public", "upload.html"));
+});
  
-router.post('/file_upload', function (req, res) {
+// router.post('/file_upload', function (req, res) {
+router.post('/', function (req, res) {
        console.log(req.files[0]);
 
        console.log("****************************cutting line****************");

@@ -10,6 +10,7 @@ var multer  = require('multer');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var test = require('./routes/test');
+var upload = require('./routes/upload');
 
 var app = express();
 
@@ -29,12 +30,15 @@ app.use(multer({ dest: path.join(__dirname, 'workspace')}).array('image'));
 app.use('/', index);
 app.use('/users', users);
 app.use('/test', test);
+app.use('/upload', upload);
+// app.post('/upload_file', upload);
 
 
 // for upload file;
-app.get('/upload', function (req, res) {
-    res.sendFile(path.join(__dirname, "public", "upload.html"));
-});
+// app.get('/upload', function (req, res) {
+//     res.sendFile(path.join(__dirname, "public", "upload.html"));
+// });
+
 app.post('/file_upload', function (req, res) {
        console.log(req.files[0]);
 
