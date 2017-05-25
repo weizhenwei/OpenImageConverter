@@ -40,19 +40,31 @@ app.post('/file_upload', function (req, res) {
 
        console.log("****************************cutting line****************");
 
+       var width = parseInt(req.body.width, 10);
+       var height = parseInt(req.body.height, 10);
+       if (isNaN(width) || isNaN(height)) {
+           res.sendFile(path.join(__dirname, "public", "param_error.html"));
+       }
+
        var des_file = path.join(__dirname, "workspace", req.files[0].originalname);
        console.log("destination file: " + des_file);
        fs.readFile(req.files[0].path, function (err, data) {
            fs.writeFile(des_file, data, function (err) {
+               var response;
                if (err) {
                    console.log(err);
                } else {
                    response = {
-                       message:'File uploaded successfully', filename:req.files[0].originalname };
+                       "message":"File uploaded successfully",
+                       "filename":req.files[0].originalname,
+                       "width":width,
+                       "height":height,
+                   };
                }
 
-               console.log( response );
-               res.end(JSON.stringify(response));
+               console.log(response);
+               var jsonPretty = JSON.stringify(response, null, 2);
+               res.end(jsonPretty);
            });
        });
 });
